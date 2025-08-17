@@ -1,26 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FiHome,
-  FiList,
+  FiCalendar,
   FiUsers,
   FiFileText,
-  FiSmartphone,
-  FiBell,
-  FiBarChart,
-  FiCalendar,
-  FiActivity,
+  FiClipboard,
   FiSearch,
   FiMenu,
   FiSettings,
   FiX,
 } from "react-icons/fi";
+import { CiBellOn } from "react-icons/ci";
+import { HiOutlineCalculator } from "react-icons/hi2";
+import { LuCalendarDays } from "react-icons/lu";
+import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
 
 interface NavItemProps {
   icon: React.ElementType;
   label: string;
   isActive?: boolean;
   href?: string;
+  onClick?: () => void;
 }
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -28,32 +29,55 @@ const NavItem: React.FC<NavItemProps> = ({
   label,
   isActive = false,
   href = "#",
+  onClick,
 }) => (
   <a
     href={href}
-    className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 ${
+    onClick={onClick}
+    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-[var(--medium-gray)] focus:ring-opacity-50 ${
       isActive
-        ? "text-white bg-white bg-opacity-20"
-        : "text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-10"
+        ? "text-[var(--black)] bg-[var(--light-gray)]"
+        : "text-[var(--medium-gray)] hover:text-[var(--black)] hover:bg-[var(--light-gray)]"
     }`}
   >
-    <Icon size={18} />
-    <span className="ml-3 hidden lg:block">{label}</span>
+    <Icon size={16} />
+    <span className="ml-2 hidden sm:block">{label}</span>
   </a>
 );
+
+const SearchNavItem: React.FC = () => {
+  const [searchValue, setSearchValue] = useState("");
+
+  return (
+    <div className="relative w-48 sm:w-64 flex-shrink-0">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <FiSearch className="h-4 w-4 text-[var(--medium-gray)]" />
+      </div>
+      <input
+        type="text"
+        placeholder="Search listings, users here..."
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        className="block w-full pl-10 pr-3 py-2 border border-[var(--light-gray)] rounded-md bg-[var(--light-gray)] text-[var(--black)] text-sm placeholder-[var(--medium-gray)] focus:outline-none  focus:ring-[var(--medium-gray)] focus:border-[var(--medium-gray)]"
+      />
+    </div>
+  );
+};
 
 const MobileNavItem: React.FC<NavItemProps> = ({
   icon: Icon,
   label,
   isActive = false,
   href = "#",
+  onClick,
 }) => (
   <a
     href={href}
+    onClick={onClick}
     className={`flex items-center w-full px-4 py-3 rounded-md text-base transition-all duration-200 ${
       isActive
-        ? "text-blue-600 bg-blue-50 font-semibold"
-        : "text-gray-700 font-medium hover:bg-gray-50"
+        ? "text-[var(--deep-blue)] bg-[var(--light-gray)] font-semibold"
+        : "text-[var(--dark-gray)] font-medium hover:bg-[var(--light-gray)]"
     }`}
   >
     <Icon size={20} />
@@ -61,60 +85,78 @@ const MobileNavItem: React.FC<NavItemProps> = ({
   </a>
 );
 
-const ResponsiveNavbar: React.FC = () => {
+const Navbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [activeItem, setActiveItem] = useState<string | null>("Dashboard");
 
   const navigationItems = [
-    { icon: FiHome, label: "Dashboard", isActive: true },
-    { icon: FiList, label: "Listings" },
+    { icon: FiHome, label: "Dashboard" },
+    { icon: FiCalendar, label: "Listings" },
     { icon: FiUsers, label: "Users" },
     { icon: FiFileText, label: "Request" },
-    { icon: FiSmartphone, label: "Applications" },
+    { icon: FiClipboard, label: "Applications" },
   ];
 
   const userActions = [
-    { icon: FiBell, label: "Notifications" },
-    { icon: FiBarChart, label: "Analytics" },
-    { icon: FiCalendar, label: "Calendar" },
-    { icon: FiActivity, label: "Activity" },
+    { icon: CiBellOn, label: "Notifications" },
+    { icon: HiOutlineCalculator, label: "Calculator" },
+    { icon: LuCalendarDays, label: "Calendar" },
+    { icon: MdOutlineMarkUnreadChatAlt, label: "Messages" },
   ];
 
+  const handleNavItemClick = (label: string) => {
+    setActiveItem(label);
+  };
+
   return (
-    <div className="w-full shadow-sm">
-      {/* Top Row - Black Background */}
-      <div className="bg-gray-900 text-white">
-        <div className="flex items-center justify-between px-4 md:px-6 lg:px-8 py-3 h-16">
+    <div className="w-full shadow-sm sticky top-0 z-50">
+      <div className="bg-[var(--light-black)] text-[var(--white)]">
+        {/* Mobile Header */}
+        <article className="flex items-center justify-between px-4 py-3 h-14 lg:hidden">
           {/* Logo */}
           <div className="flex items-center flex-shrink-0">
-            <FiSettings size={24} />
-            <span className="ml-2 text-lg md:text-xl font-bold text-white">
+            <FiSettings size={20} className="text-[var(--white)]" />
+            <span className="ml-1 text-lg font-semibold text-[var(--white)]">
               myxellia
             </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center justify-center flex-1 max-w-2xl">
-            <div className="flex space-x-2">
-              {navigationItems.map((item) => (
-                <NavItem
-                  key={item.label}
-                  icon={item.icon}
-                  label={item.label}
-                  isActive={item.isActive}
-                />
-              ))}
+          {/* Right Section */}
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            <div className="w-8 h-8 bg-[var(--white)] text-[var(--black)] rounded-full flex items-center justify-center text-sm font-semibold">
+              D
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="p-2 text-[var(--white)] hover:bg-[var(--dark-gray)] rounded-md transition-all duration-200"
+              onClick={() => setIsDrawerOpen(true)}
+              aria-label="Open menu"
+            >
+              <FiMenu size={18} />
+            </button>
+          </div>
+        </article>
+
+        {/* Desktop Header */}
+        <article className="hidden lg:flex items-center justify-between px-4 py-3 h-14">
+          {/* Logo */}
+          <div className="flex items-center flex-shrink-0">
+            <FiSettings size={20} className="text-[var(--white)]" />
+            <span className="ml-1 text-lg font-semibold text-[var(--white)]">
+              myxellia
+            </span>
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             {/* Desktop User Actions */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="flex items-center space-x-1">
               {userActions.map((action) => (
                 <button
                   key={action.label}
-                  className="p-2 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-10 rounded-md transition-all duration-200"
+                  className="p-2 text-[var(--light-gray)] hover:text-[var(--white)] hover:bg-[var(--dark-gray)] rounded-md transition-all duration-200 cursor-pointer"
                   aria-label={action.label}
                 >
                   <action.icon size={18} />
@@ -122,101 +164,61 @@ const ResponsiveNavbar: React.FC = () => {
               ))}
             </div>
 
-            {/* User Avatar */}
-            <div className="w-8 h-8 md:w-8 md:h-8 bg-gray-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
-              UN
+            <div className="w-8 h-8 bg-[var(--white)] text-[var(--black)] rounded-full flex items-center justify-center text-[18px] font-bold ml-2">
+              D
             </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 text-white hover:bg-white hover:bg-opacity-10 rounded-md transition-all duration-200"
-              onClick={() => setIsDrawerOpen(true)}
-              aria-label="Open menu"
-            >
-              <FiMenu size={20} />
-            </button>
           </div>
-        </div>
+        </article>
       </div>
 
-      {/* Bottom Row - White Background */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="flex items-center px-4 md:px-6 lg:px-8 py-3 h-14">
-          {/* Search Bar */}
-          <div className="relative w-48 md:w-64 lg:w-80 flex-shrink-0">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiSearch className="h-4 w-4 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search listings, users here..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+      {/* Desktop Aside Section */}
+      <aside className="hidden lg:block bg-[var(--white)] border-b border-[var(--light-gray)]">
+        <div className="flex items-center justify-between px-4 py-3 h-14">
+          {/* Navigation Items with Search as 6th item */}
+          {navigationItems.map((item) => (
+            <NavItem
+              key={item.label}
+              icon={item.icon}
+              label={item.label}
+              isActive={activeItem === item.label}
+              onClick={() => handleNavItemClick(item.label)}
             />
-          </div>
+          ))}
 
-          <div className="flex-1"></div>
-
-          {/* Additional Actions (Desktop Only) */}
-          <div className="hidden md:flex items-center space-x-2">
-            <button className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-all duration-200">
-              <FiBarChart size={16} className="mr-2" />
-              Analytics
-            </button>
-            <button className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md transition-all duration-200">
-              <FiCalendar size={16} className="mr-2" />
-              Calendar
-            </button>
-          </div>
+          {/* Search as 6th item */}
+          <SearchNavItem />
         </div>
-      </div>
+      </aside>
 
       {/* Mobile Drawer Overlay */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-black bg-opacity-50"
+            className="fixed inset-0 bg-[var(--black)] bg-opacity-50"
             onClick={() => setIsDrawerOpen(false)}
           ></div>
 
-          {/* Drawer Content */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-xl">
+          <div className="fixed inset-y-0 left-0 w-full max-w-xs bg-[var(--white)] shadow-xl">
             {/* Drawer Header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--light-gray)]">
               <div className="flex items-center">
                 <FiSettings size={20} />
-                <span className="ml-2 text-lg font-bold">myxellia</span>
+                <span className="ml-1 text-lg font-bold">myxellia</span>
               </div>
               <button
                 onClick={() => setIsDrawerOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-md transition-all duration-200"
+                className="p-2 hover:bg-[var(--light-gray)] rounded-md transition-all duration-200"
               >
                 <FiX size={20} />
               </button>
             </div>
 
             {/* Drawer Body */}
-            <div className="p-4">
+            <div className="p-4 overflow-y-auto">
               <div className="space-y-1">
-                {/* Navigation Items */}
-                <div className="mb-4">
-                  <h3 className="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                    Navigation
-                  </h3>
-                  {navigationItems.map((item) => (
-                    <MobileNavItem
-                      key={item.label}
-                      icon={item.icon}
-                      label={item.label}
-                      isActive={item.isActive}
-                    />
-                  ))}
-                </div>
-
                 {/* User Actions */}
                 <div className="mb-6">
-                  <h3 className="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                  <h3 className="px-4 text-xs font-bold text-[var(--medium-gray)] uppercase tracking-wider mb-2">
                     Tools
                   </h3>
                   {userActions.map((action) => (
@@ -228,21 +230,37 @@ const ResponsiveNavbar: React.FC = () => {
                   ))}
                 </div>
 
+                {/* Navigation Items */}
+                <div className="mb-4">
+                  <h3 className="px-4 text-xs font-bold text-[var(--medium-gray)] uppercase tracking-wider mb-2">
+                    Navigation
+                  </h3>
+                  {navigationItems.map((item) => (
+                    <MobileNavItem
+                      key={item.label}
+                      icon={item.icon}
+                      label={item.label}
+                      isActive={activeItem === item.label}
+                      onClick={() => handleNavItemClick(item.label)}
+                    />
+                  ))}
+                </div>
+
                 {/* Mobile Search */}
                 <div>
-                  <h3 className="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                  <h3 className="px-4 text-xs font-bold text-[var(--medium-gray)] uppercase tracking-wider mb-2">
                     Search
                   </h3>
                   <div className="relative px-4">
                     <div className="absolute inset-y-0 left-7 flex items-center pointer-events-none">
-                      <FiSearch className="h-4 w-4 text-gray-400" />
+                      <FiSearch className="h-4 w-4 text-[var(--medium-gray)]" />
                     </div>
                     <input
                       type="text"
                       placeholder="Search listings, users here..."
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      className="block w-full pl-10 pr-3 py-2 border border-[var(--light-gray)] rounded-md bg-[var(--light-gray)] text-[var(--black)] text-sm placeholder-[var(--medium-gray)] focus:outline-none focus:ring-1 focus:ring-[var(--black)] focus:border-[var(--black)]"
                     />
                   </div>
                 </div>
@@ -255,4 +273,4 @@ const ResponsiveNavbar: React.FC = () => {
   );
 };
 
-export default ResponsiveNavbar;
+export default Navbar;

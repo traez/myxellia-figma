@@ -92,6 +92,8 @@ While there's no universally fixed "acceptable" max height, sticking to 400–70
   /* myxellia-figma colors */
   --white: #ffffff;
   --light-gray: #e4e4e4;
+  --medium-gray: #6b7280;
+  --dark-gray: #374151;
   --light-black: #1e1e1e;
   --black: #171717;
   --gray-blue: #0c2841;
