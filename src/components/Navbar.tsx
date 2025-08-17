@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Budgeting from "@/components/Budgeting"; 
 
 interface NavItemProps {
   imageSrc: string;
@@ -115,11 +116,11 @@ const MobileActionItem: React.FC<MobileActionItemProps> = ({
   <Button
     variant="ghost"
     onClick={onClick}
-    className="flex items-center justify-start w-full px-4 py-3 h-auto rounded-md text-base transition-all duration-200 text-[var(--dark-gray)] font-medium hover:bg-[var(--light-gray)]"
+    className="flex items-center justify-start w-full px-4 py-3 h-auto rounded-md text-base transition-all duration-200 text-[var(--dark-gray)] font-medium hover:bg-[var(--light-gray)] cursor-pointer"
   >
     <div className="w-4 h-4 relative bg-black">
       <Image
-        src={imageSrc || "/placeholder.svg"}
+        src={imageSrc}
         alt={imageSrc}
         fill
         sizes="(min-width: 360px) 100vw"
@@ -134,6 +135,7 @@ const Navbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [activeItem, setActiveItem] = useState<string | null>("Dashboard");
+  const [isBudgetingModalOpen, setIsBudgetingModalOpen] = useState(false); 
 
   const navigationItems = [
     { imageSrc: "/icon-home.svg", label: "Dashboard" },
@@ -152,6 +154,10 @@ const Navbar: React.FC = () => {
 
   const handleNavItemClick = (label: string) => {
     setActiveItem(label);
+  };
+
+  const handleCalculatorClick = () => {
+    setIsBudgetingModalOpen(true); 
   };
 
   return (
@@ -208,6 +214,11 @@ const Navbar: React.FC = () => {
                           key={action.label}
                           imageSrc={action.imageSrc}
                           label={action.label}
+                          onClick={
+                            action.label === "Calculator"
+                              ? handleCalculatorClick
+                              : undefined
+                          } // Added onClick handler for Calculator
                         />
                       ))}
                     </div>
@@ -270,8 +281,13 @@ const Navbar: React.FC = () => {
                   key={action.label}
                   variant="ghost"
                   size="sm"
-                  className="p-2 text-[var(--light-gray)] hover:text-[var(--white)] hover:bg-[var(--dark-gray)] rounded-md transition-all duration-200"
+                  className="p-2 text-[var(--light-gray)] hover:text-[var(--white)] hover:bg-[var(--dark-gray)] rounded-md transition-all duration-200 cursor-pointer"
                   aria-label={action.label}
+                  onClick={
+                    action.label === "Calculator"
+                      ? handleCalculatorClick
+                      : undefined
+                  } // Added onClick handler for Calculator
                 >
                   <div className="w-[32px] h-[32px] relative">
                     <Image
@@ -311,6 +327,12 @@ const Navbar: React.FC = () => {
           <SearchNavItem />
         </div>
       </aside>
+
+      {/* BudgetingModal component */}
+      <Budgeting
+        open={isBudgetingModalOpen}
+        onOpenChange={setIsBudgetingModalOpen}
+      />
     </div>
   );
 };
