@@ -1,31 +1,28 @@
 "use client";
 import { useState } from "react";
-import {
-  FiHome,
-  FiCalendar,
-  FiUsers,
-  FiFileText,
-  FiClipboard,
-  FiSearch,
-  FiMenu,
-  FiSettings,
-  FiX,
-} from "react-icons/fi";
+import Image from "next/image";
+import { FiSearch, FiMenu, FiSettings, FiX } from "react-icons/fi";
 import { CiBellOn } from "react-icons/ci";
 import { HiOutlineCalculator } from "react-icons/hi2";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
 
 interface NavItemProps {
-  icon: React.ElementType;
+  imageSrc: string;
   label: string;
   isActive?: boolean;
   href?: string;
   onClick?: () => void;
 }
 
+interface MobileActionItemProps {
+  icon: React.ComponentType<{ size?: number }>;
+  label: string;
+  onClick?: () => void;
+}
+
 const NavItem: React.FC<NavItemProps> = ({
-  icon: Icon,
+  imageSrc,
   label,
   isActive = false,
   href = "#",
@@ -40,7 +37,15 @@ const NavItem: React.FC<NavItemProps> = ({
         : "text-[var(--medium-gray)] hover:text-[var(--black)] hover:bg-[var(--light-gray)]"
     }`}
   >
-    <Icon size={16} />
+    <div className="w-5 h-5 relative">
+      <Image
+        src={imageSrc}
+        alt={imageSrc}
+        fill
+        sizes="(min-width: 360px) 100vw"
+        className="object-contain"
+      />
+    </div>
     <span className="ml-2 hidden sm:block">{label}</span>
   </a>
 );
@@ -65,7 +70,7 @@ const SearchNavItem: React.FC = () => {
 };
 
 const MobileNavItem: React.FC<NavItemProps> = ({
-  icon: Icon,
+  imageSrc,
   label,
   isActive = false,
   href = "#",
@@ -80,9 +85,31 @@ const MobileNavItem: React.FC<NavItemProps> = ({
         : "text-[var(--dark-gray)] font-medium hover:bg-[var(--light-gray)]"
     }`}
   >
-    <Icon size={20} />
+    <div className="w-4 h-4 relative">
+      <Image
+        src={imageSrc}
+        alt={imageSrc}
+        fill
+        sizes="(min-width: 360px) 100vw"
+        className="object-contain"
+      />
+    </div>
     <span className="ml-3">{label}</span>
   </a>
+);
+
+const MobileActionItem: React.FC<MobileActionItemProps> = ({
+  icon: Icon,
+  label,
+  onClick,
+}) => (
+  <button
+    onClick={onClick}
+    className="flex items-center w-full px-4 py-3 rounded-md text-base transition-all duration-200 text-[var(--dark-gray)] font-medium hover:bg-[var(--light-gray)]"
+  >
+    <Icon size={16} />
+    <span className="ml-3">{label}</span>
+  </button>
 );
 
 const Navbar: React.FC = () => {
@@ -91,11 +118,11 @@ const Navbar: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string | null>("Dashboard");
 
   const navigationItems = [
-    { icon: FiHome, label: "Dashboard" },
-    { icon: FiCalendar, label: "Listings" },
-    { icon: FiUsers, label: "Users" },
-    { icon: FiFileText, label: "Request" },
-    { icon: FiClipboard, label: "Applications" },
+    { imageSrc: "/icon-home.svg", label: "Dashboard" },
+    { imageSrc: "/icon-toolbox.svg", label: "Listings" },
+    { imageSrc: "/icon-profile.svg", label: "Users" },
+    { imageSrc: "/icon-article.svg", label: "Request" },
+    { imageSrc: "/icon-scroll.svg", label: "Applications" },
   ];
 
   const userActions = [
@@ -178,7 +205,7 @@ const Navbar: React.FC = () => {
           {navigationItems.map((item) => (
             <NavItem
               key={item.label}
-              icon={item.icon}
+              imageSrc={item.imageSrc}
               label={item.label}
               isActive={activeItem === item.label}
               onClick={() => handleNavItemClick(item.label)}
@@ -222,7 +249,7 @@ const Navbar: React.FC = () => {
                     Tools
                   </h3>
                   {userActions.map((action) => (
-                    <MobileNavItem
+                    <MobileActionItem
                       key={action.label}
                       icon={action.icon}
                       label={action.label}
@@ -238,7 +265,7 @@ const Navbar: React.FC = () => {
                   {navigationItems.map((item) => (
                     <MobileNavItem
                       key={item.label}
-                      icon={item.icon}
+                      imageSrc={item.imageSrc}
                       label={item.label}
                       isActive={activeItem === item.label}
                       onClick={() => handleNavItemClick(item.label)}
