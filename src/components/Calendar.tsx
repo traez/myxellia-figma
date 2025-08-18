@@ -1,7 +1,8 @@
 "use client";
 import { Sheet, SheetTitle, SheetContent } from "@/components/ui/sheet";
 import { useState } from "react";
-import { IoChevronBack, IoChevronForward, IoArrowBack } from "react-icons/io5";
+import { IoArrowBack } from "react-icons/io5";
+import { TiChevronLeftOutline, TiChevronRightOutline } from "react-icons/ti";
 
 interface CalendarModalProps {
   open: boolean;
@@ -86,7 +87,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
       days.push(
         <button
           key={`prev-${day}`}
-          className="p-3 rounded-lg text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center min-h-11 text-sm font-medium relative"
+          className="p-2 rounded-none border border-white/20 text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
           onClick={() => handleDateClick(day, false)}
         >
           {day}
@@ -100,7 +101,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
       days.push(
         <button
           key={day}
-          className={`p-3 rounded-lg transition-colors flex flex-col items-center justify-center min-h-11 text-sm font-medium relative ${
+          className={`p-2 rounded-none border border-white/20 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative ${
             isSelected
               ? "bg-blue-500 text-white hover:bg-blue-600"
               : "text-white hover:bg-gray-700"
@@ -121,7 +122,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
       days.push(
         <button
           key={`next-${day}`}
-          className="p-3 rounded-lg text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center min-h-11 text-sm font-medium relative"
+          className="p-2 rounded-none border border-white/20 text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
           onClick={() => handleDateClick(day, false)}
         >
           {isDecember && day === 1 && (
@@ -141,10 +142,10 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-[300px] sm:w-[400px] p-6 h-[calc(100vh-56px)] lg:h-[calc(100vh-113px)] top-[56px] lg:top-[113px] bg-gray-800"
+        className="w-[300px] sm:w-[400px] h-[calc(100vh-56px)] lg:h-[calc(100vh-113px)] top-[56px] lg:top-[113px] bg-[var(--black)]"
       >
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <nav className="flex justify-between items-center mb-4 bg-[var(--dark-gray)] py-2">
           <div className="flex items-center gap-3">
             <button
               onClick={() => console.log("Back clicked")}
@@ -156,44 +157,45 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
               Calendar
             </SheetTitle>
           </div>
-        </div>
-
-        {/* Month Navigation */}
-        <div className="flex justify-between items-center mb-6">
-          <button
-            onClick={getPreviousMonth}
-            className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
-          >
-            <IoChevronBack className="w-5 h-5 text-white" />
-          </button>
-          <h3 className="text-lg font-semibold text-white">
-            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-          </h3>
-          <button
-            onClick={getNextMonth}
-            className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
-          >
-            <IoChevronForward className="w-5 h-5 text-white" />
-          </button>
-        </div>
-
-        {/* Calendar Grid */}
-        <div className="w-full">
-          {/* Day Headers */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {dayNames.map((day) => (
-              <div
-                key={day}
-                className="text-center text-xs font-medium text-gray-400 py-2 px-1"
-              >
-                {day}
-              </div>
-            ))}
+        </nav>
+        <article className="px-4 lg:px-6">
+          {/* Month Navigation */}
+          <div className="flex justify-between items-center mb-4">
+            <button
+              onClick={getPreviousMonth}
+              className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
+            >
+              <TiChevronLeftOutline className="w-5 h-5 text-white" />
+            </button>
+            <h3 className="text-lg font-semibold text-white">
+              {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+            </h3>
+            <button
+              onClick={getNextMonth}
+              className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
+            >
+              <TiChevronRightOutline className="w-5 h-5 text-white" />
+            </button>
           </div>
 
-          {/* Calendar Days */}
-          <div className="grid grid-cols-7 gap-1">{renderCalendarDays()}</div>
-        </div>
+          {/* Calendar Grid */}
+          <div className="w-full">
+            {/* Day Headers */}
+            <div className="grid grid-cols-7 mb-1">
+              {dayNames.map((day) => (
+                <div
+                  key={day}
+                  className="text-center text-xs font-medium text-gray-400 py-2 px-1 border-b border-white/20"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Calendar Days */}
+            <div className="grid grid-cols-7">{renderCalendarDays()}</div>
+          </div>
+        </article>
       </SheetContent>
     </Sheet>
   );
