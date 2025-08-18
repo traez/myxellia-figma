@@ -11,7 +11,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Budgeting from "@/components/Budgeting"; 
+import Budgeting from "@/components/Budgeting";
+import Calendar from "@/components/Calendar";
 
 interface NavItemProps {
   imageSrc: string;
@@ -135,7 +136,8 @@ const Navbar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [activeItem, setActiveItem] = useState<string | null>("Dashboard");
-  const [isBudgetingModalOpen, setIsBudgetingModalOpen] = useState(false); 
+  const [isBudgetingModalOpen, setIsBudgetingModalOpen] = useState(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
 
   const navigationItems = [
     { imageSrc: "/icon-home.svg", label: "Dashboard" },
@@ -157,7 +159,11 @@ const Navbar: React.FC = () => {
   };
 
   const handleCalculatorClick = () => {
-    setIsBudgetingModalOpen(true); 
+    setIsBudgetingModalOpen(true);
+  };
+
+  const handleCalendarClick = () => {
+    setIsCalendarModalOpen(true);
   };
 
   return (
@@ -217,8 +223,10 @@ const Navbar: React.FC = () => {
                           onClick={
                             action.label === "Calculator"
                               ? handleCalculatorClick
+                              : action.label === "Calendar"
+                              ? handleCalendarClick
                               : undefined
-                          } // Added onClick handler for Calculator
+                          }
                         />
                       ))}
                     </div>
@@ -286,8 +294,10 @@ const Navbar: React.FC = () => {
                   onClick={
                     action.label === "Calculator"
                       ? handleCalculatorClick
+                      : action.label === "Calendar"
+                      ? handleCalendarClick
                       : undefined
-                  } // Added onClick handler for Calculator
+                  }
                 >
                   <div className="w-[32px] h-[32px] relative">
                     <Image
@@ -332,6 +342,12 @@ const Navbar: React.FC = () => {
       <Budgeting
         open={isBudgetingModalOpen}
         onOpenChange={setIsBudgetingModalOpen}
+      />
+
+      {/* BudgetingModal component */}
+      <Calendar
+        open={isCalendarModalOpen}
+        onOpenChange={setIsCalendarModalOpen}
       />
     </div>
   );
