@@ -29,7 +29,7 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
           <DialogTitle className="sr-only">Budget Management</DialogTitle>
         </DialogHeader>
 
-        {/* Content. In future made code DRY */}
+        {/* Content. In future make code DRY */}
         <article className="px-2 py-1 space-y-0.5 sm:px-6 sm:py-3 sm:space-y-1 flex flex-col justify-around">
           {/* Feature 1 */}
           <aside className="flex items-start gap-1 sm:gap-2">
@@ -43,10 +43,10 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
               />
             </div>
             <div className="flex-1">
-              <h3 className="text-xs sm:text-lg font-semibold text-gray-900 mb-0.5 sm:mb-1 leading-tight">
+              <h3 className="text-xs sm:text-lg font-semibold text-[var(--black)] mb-0.5 sm:mb-1 leading-tight">
                 Set up annual budgets by account category
               </h3>
-              <p className="text-[10px] sm:text-sm text-gray-600 leading-relaxed">
+              <p className="text-[10px] sm:text-sm text-[var(--medium-gray)] leading-relaxed">
                 Allocate funds across income and expense lines with full
                 visibility.
               </p>
@@ -65,10 +65,10 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
               />
             </div>
             <div className="flex-1">
-              <h3 className="text-xs sm:text-lg font-semibold text-gray-900 mb-0.5 sm:mb-1 leading-tight">
+              <h3 className="text-xs sm:text-lg font-semibold text-[var(--black)] mb-0.5 sm:mb-1 leading-tight">
                 Track actuals vs budget in real time
               </h3>
-              <p className="text-[10px] sm:text-sm text-gray-600 leading-relaxed">
+              <p className="text-[10px] sm:text-sm text-[var(--medium-gray)] leading-relaxed">
                 See how your community is performing against plan, month by
                 month.
               </p>
@@ -87,10 +87,10 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
               />
             </div>
             <div className="flex-1">
-              <h3 className="text-xs sm:text-lg font-semibold text-gray-900 mb-0.5 sm:mb-1 leading-tight">
+              <h3 className="text-xs sm:text-lg font-semibold text-[var(--black)] mb-0.5 sm:mb-1 leading-tight">
                 Adjust figures and forecast with ease
               </h3>
-              <p className="text-[10px] sm:text-sm text-gray-600 leading-relaxed">
+              <p className="text-[10px] sm:text-sm text-[var(--medium-gray)] leading-relaxed">
                 Edit amounts, apply percentage changes, or roll forward last
                 year's data—all in one place.
               </p>
@@ -99,7 +99,7 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
 
           {/* CTA Button */}
           <Button
-            className="w-full bg-gray-900 hover:bg-gray-800 text-white py-1.25 sm:py-3 rounded-full text-xs sm:text-base font-medium"
+            className="w-full bg-[var(--black)] hover:bg-[var(--light-black)] text-[var(--white)] py-1.25 sm:py-3 rounded-full text-xs sm:text-base font-medium"
             onClick={() => onOpenChange(false)}
           >
             Create Budget
