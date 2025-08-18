@@ -10,10 +10,11 @@ interface CalendarModalProps {
 }
 
 export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
-  const [selectedDate, setSelectedDate] = useState<Date>(
-    new Date(2023, 10, 16)
-  );
-  const [currentDate, setCurrentDate] = useState(new Date(2023, 10, 1)); // November 2023
+  const today = new Date();
+  const [selectedDate, setSelectedDate] = useState<Date>(today);
+  const [currentDate, setCurrentDate] = useState(
+    new Date(today.getFullYear(), today.getMonth(), 1)
+  ); // Current month
 
   const monthNames = [
     "January",
@@ -30,7 +31,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     "December",
   ];
 
-  const dayNames = ["SUN", "MON", "TUE", "WED", "THURS", "FRI", "SAT"];
+  const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -72,6 +73,14 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     );
   };
 
+  const isToday = (day: number) => {
+    return (
+      today.getDate() === day &&
+      today.getMonth() === currentDate.getMonth() &&
+      today.getFullYear() === currentDate.getFullYear()
+    );
+  };
+
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
@@ -87,7 +96,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
       days.push(
         <button
           key={`prev-${day}`}
-          className="p-2 rounded-none border border-white/20 text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
+          className="p-2 rounded-none border border-[color-mix(in_srgb,var(--white)_20%,transparent)] text-[var(--medium-gray)] hover:bg-[var(--dark-gray)] hover:text-[var(--light-gray)] transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
           onClick={() => handleDateClick(day, false)}
         >
           {day}
@@ -98,14 +107,17 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     // Current month days
     for (let day = 1; day <= daysInMonth; day++) {
       const isSelected = isSelectedDate(day);
+      const todayClass = isToday(day)
+        ? "bg-[var(--deep-blue)] text-[var(--white)]"
+        : "";
       days.push(
         <button
           key={day}
-          className={`p-2 rounded-none border border-white/20 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative ${
+          className={`p-2 rounded-none border border-[color-mix(in_srgb,var(--white)_20%,transparent)] transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative ${
             isSelected
-              ? "bg-blue-500 text-white hover:bg-blue-600"
-              : "text-white hover:bg-gray-700"
-          }`}
+              ? "bg-[var(--deep-blue)] text-[var(--white)] hover:bg-[var(--purple)]"
+              : "text-[var(--white)] hover:bg-[var(--dark-gray)]"
+          } ${todayClass}`}
           onClick={() => handleDateClick(day)}
         >
           {day}
@@ -118,16 +130,18 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     const remainingCells = totalCells - (firstDay + daysInMonth);
 
     for (let day = 1; day <= remainingCells; day++) {
-      const isDecember = currentDate.getMonth() === 10; // November
+      const nextMonth = currentDate.getMonth() + 1;
       days.push(
         <button
           key={`next-${day}`}
-          className="p-2 rounded-none border border-white/20 text-gray-500 hover:bg-gray-700 hover:text-gray-300 transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
+          className="p-2 rounded-none border border-[color-mix(in_srgb,var(--white)_20%,transparent)] text-[var(--medium-gray)] hover:bg-[var(--dark-gray)] hover:text-[var(--light-gray)] transition-colors flex flex-col items-center justify-center h-16 w-full text-sm font-medium relative"
           onClick={() => handleDateClick(day, false)}
         >
-          {isDecember && day === 1 && (
-            <span className="absolute top-0 left-0 text-[10px] text-gray-500 font-normal">
-              DEC
+          {day === 1 && (
+            <span className="absolute top-0 left-0 text-[10px] text-[var(--medium-gray)] font-normal">
+              {monthNames[nextMonth > 11 ? 0 : nextMonth]
+                .substring(0, 3)
+                .toUpperCase()}
             </span>
           )}
           {day}
@@ -142,18 +156,18 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-[300px] sm:w-[400px] h-[calc(100vh-56px)] lg:h-[calc(100vh-113px)] top-[56px] lg:top-[113px] bg-[var(--black)]"
+        className="w-[300px] sm:w-[400px] h-[calc(100vh-56px)] lg:h-[calc(100vh-113px)] top-[56px] lg:top-[113px] bg-[var(--black)] [&>button]:text-[var(--white)]"
       >
         {/* Header */}
-        <nav className="flex justify-between items-center mb-4 bg-[var(--dark-gray)] py-2">
+        <nav className="flex justify-between items-center mb-4 py-2">
           <div className="flex items-center gap-3">
             <button
               onClick={() => console.log("Back clicked")}
-              className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
+              className="p-2 rounded-lg bg-transparent hover:bg-[var(--dark-gray)] transition-colors flex items-center justify-center"
             >
-              <IoArrowBack className="w-5 h-5 text-white" />
+              <IoArrowBack className="w-5 h-5 text-[var(--white)]" />
             </button>
-            <SheetTitle className="text-lg font-semibold text-white">
+            <SheetTitle className="text-lg font-semibold text-[var(--white)]">
               Calendar
             </SheetTitle>
           </div>
@@ -163,18 +177,18 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={getPreviousMonth}
-              className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
+              className="p-2 rounded-lg bg-transparent hover:bg-[var(--dark-gray)] transition-colors flex items-center justify-center"
             >
-              <TiChevronLeftOutline className="w-5 h-5 text-white" />
+              <TiChevronLeftOutline className="w-5 h-5 text-[var(--white)]" />
             </button>
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-[var(--white)]">
               {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </h3>
             <button
               onClick={getNextMonth}
-              className="p-2 rounded-lg bg-transparent hover:bg-gray-700 transition-colors flex items-center justify-center"
+              className="p-2 rounded-lg bg-transparent hover:bg-[var(--dark-gray)] transition-colors flex items-center justify-center"
             >
-              <TiChevronRightOutline className="w-5 h-5 text-white" />
+              <TiChevronRightOutline className="w-5 h-5 text-[var(--white)]" />
             </button>
           </div>
 
@@ -185,7 +199,7 @@ export default function Calendar({ open, onOpenChange }: CalendarModalProps) {
               {dayNames.map((day) => (
                 <div
                   key={day}
-                  className="text-center text-xs font-medium text-gray-400 py-2 px-1 border-b border-white/20"
+                  className="text-center text-xs font-medium text-[var(--medium-gray)] py-2 px-1 border-b border-[color-mix(in_srgb,var(--white)_20%,transparent)]"
                 >
                   {day}
                 </div>
