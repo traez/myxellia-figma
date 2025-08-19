@@ -6,7 +6,7 @@ const ListingsUsersO = () => {
   return (
     <div className="w-full px-2">
       {/* Listings Overview Card */}
-      <Card className="w-full mb-2 p-0">
+      <Card className="w-full mb-3 p-0">
         <CardHeader className="p-2 bg-[var(--very-light-gray)] rounded-t-xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
