@@ -1,34 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FiTrendingUp, FiTrendingDown } from "react-icons/fi";
+import { FaArrowCircleUp, FaArrowCircleDown } from "react-icons/fa";
 
 const SalesO = () => {
   const metrics = [
     {
-      title: "Total Volume",
+      title: "Total Inflow",
       value: "₦120,000,000.00",
       change: "25%",
       isPositive: true,
       color: "text-blue-600",
     },
     {
-      title: "YTD",
-      value: "₦60,000,000.00",
-      change: "18%",
+      title: "MRR",
+      value: "₦50,000,000.00",
+      change: "2%",
       isPositive: true,
       color: "text-green-600",
     },
     {
       title: "Commission Revenue",
       value: "₦200,000,000.00",
-      change: "25%",
+      change: "0.5%",
       isPositive: true,
-      color: "text-blue-600",
+      color: "text-green-400",
     },
     {
       title: "GMV",
       value: "₦100,000,000.00",
-      change: "25%",
+      change: "-0.5%",
       isPositive: false,
       color: "text-red-600",
     },
@@ -99,19 +99,21 @@ const SalesO = () => {
             {/* Metrics Section - Stacked on mobile, 2x2 grid on tablet and desktop */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-1.5">
               {metrics.map((metric, index) => (
-                <Card key={index} className="h-fit">
+                <Card key={index} className="h-fit p-4">
                   <CardContent className="p-0.5">
-                    <div className="space-y-0">
-                      <h3 className={`text-base font-bold ${metric.color}`}>
+                    <div className="space-y-2 flex flex-col justify-around items-center h-full">
+                      <h3 className={`text-[18px] font-bold ${metric.color}`}>
                         {metric.value}
                       </h3>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-600">{metric.title}</p>
-                        <div className="flex items-center gap-1">
+                      <div className="flex flex-row items-center justify-start w-full">
+                        <p className="text-xs text-gray-600 whitespace-nowrap">
+                          {metric.title}
+                        </p>
+                        <div className="flex items-center gap-2">
                           {metric.isPositive ? (
-                            <FiTrendingUp className="w-3 h-3 text-green-500" />
+                            <FaArrowCircleUp className="w-3 h-3 text-green-500" />
                           ) : (
-                            <FiTrendingDown className="w-3 h-3 text-red-500" />
+                            <FaArrowCircleDown className="w-3 h-3 text-red-500" />
                           )}
                           <span
                             className={`text-xs font-medium ${
