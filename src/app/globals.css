@@ -91,6 +91,7 @@ While there's no universally fixed "acceptable" max height, sticking to 400–70
   --sidebar-ring: oklch(0.708 0 0);
   /* myxellia-figma colors */
   --white: #ffffff;
+  --very-light-gray: #f3f4f6;
   --light-gray: #e4e4e4;
   --medium-gray: #6b7280;
   --dark-gray: #374151;
