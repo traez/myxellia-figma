@@ -15,6 +15,7 @@ import {
   BarElement,
   Title,
   Tooltip,
+  type TooltipItem,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
@@ -146,7 +147,7 @@ const SalesO = () => {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) =>
+          label: (context: TooltipItem<"bar">) =>
             `${context.dataset.label}: ₦${context.parsed.y}M`,
         },
       },
@@ -155,7 +156,7 @@ const SalesO = () => {
       y: {
         beginAtZero: true,
         ticks: {
-          callback: (value: any) => value + "m",
+          callback: (value: string | number) => value + "m",
           font: {
             size: 10,
           },

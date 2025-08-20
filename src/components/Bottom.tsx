@@ -1,4 +1,5 @@
 import Overview from "./Overview";
+import ImageCard from "./ImageCard";
 
 const Bottom = () => {
   return (
@@ -8,7 +9,7 @@ const Bottom = () => {
           Welcome, Ahmed
         </p>
         <Overview />
-        <article>BBB</article>
+        <ImageCard />
       </section>
     </div>
   );

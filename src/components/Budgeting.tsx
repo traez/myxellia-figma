@@ -92,7 +92,7 @@ export default function Budgeting({ open, onOpenChange }: BudgetingModalProps) {
               </h3>
               <p className="text-[10px] sm:text-sm text-[var(--medium-gray)] leading-relaxed">
                 Edit amounts, apply percentage changes, or roll forward last
-                year's data—all in one place.
+                year&apos;s data—all in one place.
               </p>
             </div>
           </aside>
