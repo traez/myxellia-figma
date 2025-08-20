@@ -29,28 +29,28 @@ const SalesO = () => {
       value: "₦120,000,000.00",
       change: "2.5%",
       isPositive: true,
-      color: "text-blue-600",
+      color: "text-[var(--deep-blue)]",
     },
     {
       title: "MRR",
       value: "₦50,000,000.00",
       change: "2.5%",
       isPositive: true,
-      color: "text-green-600",
+      color: "text-[var(--light-green)]",
     },
     {
       title: "Commission Revenue",
       value: "₦200,000,000.00",
       change: "0.5%",
       isPositive: true,
-      color: "text-green-400",
+      color: "text-[var(--teal)]",
     },
     {
       title: "GMV",
       value: "₦100,000,000.00",
       change: "-0.5%",
       isPositive: false,
-      color: "text-red-600",
+      color: "text-[var(--light-red)]",
     },
   ];
 
@@ -80,29 +80,29 @@ const SalesO = () => {
       {
         label: "Total Inflow",
         data: [35, 28, 15, 25, 10, 50, 37, 24, 38, 45, 32, 28],
-        backgroundColor: "rgba(59, 130, 246, 0.8)",
-        borderColor: "rgba(59, 130, 246, 1)",
+        backgroundColor: "rgba(37, 37, 230, 0.8)",
+        borderColor: "rgba(37, 37, 230, 1)",
         borderWidth: 1,
       },
       {
         label: "MRR",
         data: [28, 25, 8, 15, 8, 37, 25, 18, 35, 38, 28, 22],
-        backgroundColor: "rgba(34, 197, 94, 0.8)",
-        borderColor: "rgba(34, 197, 94, 1)",
+        backgroundColor: "rgba(18, 183, 106, 0.8)",
+        borderColor: "rgba(18, 183, 106, 1)",
         borderWidth: 1,
       },
       {
         label: "Commission Revenue",
         data: [12, 10, 5, 10, 6, 18, 15, 8, 15, 20, 15, 12],
-        backgroundColor: "rgba(74, 222, 128, 0.8)",
-        borderColor: "rgba(74, 222, 128, 1)",
+        backgroundColor: "rgba(20, 184, 166, 0.8)",
+        borderColor: "rgba(20, 184, 166, 1)",
         borderWidth: 1,
       },
       {
         label: "GMV",
         data: [8, 6, 3, 8, 5, 12, 10, 5, 10, 15, 10, 8],
-        backgroundColor: "rgba(239, 68, 68, 0.8)",
-        borderColor: "rgba(239, 68, 68, 1)",
+        backgroundColor: "rgba(240, 68, 56, 0.8)",
+        borderColor: "rgba(240, 68, 56, 1)",
         borderWidth: 1,
       },
     ],
@@ -189,10 +189,10 @@ const SalesO = () => {
           {/* Header Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-2">
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-[var(--black)]">
                 Sales Overview
               </h1>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-[var(--medium-gray)] mt-0.5">
                 Showing overview Jan 2022 - Dec 2022
               </p>
             </div>
@@ -212,8 +212,8 @@ const SalesO = () => {
                   key={index}
                   className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
                     option.active
-                      ? "bg-gray-200 text-black shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "bg-[var(--light-gray)] text-[var(--black)] shadow-sm"
+                      : "text-[var(--medium-gray)] hover:text-[var(--black)]"
                   }`}
                 >
                   {option.label}
@@ -235,8 +235,8 @@ const SalesO = () => {
                       disabled={!canScrollLeft}
                       className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full transition-colors ${
                         canScrollLeft
-                          ? "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                          : "text-gray-300 cursor-not-allowed"
+                          ? "text-[var(--medium-gray)] hover:text-[var(--black)] hover:bg-[var(--very-light-gray)]"
+                          : "text-[var(--light-gray)] cursor-not-allowed"
                       }`}
                     >
                       <FaChevronLeft className="w-4 h-4" />
@@ -248,8 +248,8 @@ const SalesO = () => {
                       disabled={!canScrollRight}
                       className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full transition-colors ${
                         canScrollRight
-                          ? "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                          : "text-gray-300 cursor-not-allowed"
+                          ? "text-[var(--medium-gray)] hover:text-[var(--black)] hover:bg-[var(--very-light-gray)]"
+                          : "text-[var(--light-gray)] cursor-not-allowed"
                       }`}
                     >
                       <FaChevronRight className="w-4 h-4" />
@@ -276,20 +276,20 @@ const SalesO = () => {
                         {metric.value}
                       </h3>
                       <div className="flex flex-row items-center justify-center xl:justify-start w-full">
-                        <p className="text-xs text-gray-600 whitespace-nowrap">
+                        <p className="text-xs text-[var(--medium-gray)] whitespace-nowrap">
                           {metric.title}
                         </p>
                         <div className="flex items-center gap-2">
                           {metric.isPositive ? (
-                            <FaArrowCircleUp className="w-3 h-3 ml-2 text-green-500" />
+                            <FaArrowCircleUp className="w-3 h-3 ml-2 text-[var(--light-green)]" />
                           ) : (
-                            <FaArrowCircleDown className="w-3 h-3 ml-2 text-red-500" />
+                            <FaArrowCircleDown className="w-3 h-3 ml-2 text-[var(--light-red)]" />
                           )}
                           <span
                             className={`text-xs font-medium ${
                               metric.isPositive
-                                ? "text-green-600"
-                                : "text-red-600"
+                                ? "text-[var(--light-green)]"
+                                : "text-[var(--light-red)]"
                             }`}
                           >
                             {metric.change}
