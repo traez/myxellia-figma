@@ -142,7 +142,7 @@ While there's no universally fixed "acceptable" max height, sticking to 400–70
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    utline: 1px solid black;
+    outline: 1px solid black;
     margin: 0;
     padding: 0;
     box-sizing: border-box;

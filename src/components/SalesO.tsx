@@ -102,18 +102,20 @@ const SalesO = () => {
                 <Card key={index} className="h-fit p-4">
                   <CardContent className="p-0.5">
                     <div className="space-y-2 flex flex-col justify-around items-center h-full">
-                      <h3 className={`text-[18px] font-bold ${metric.color}`}>
+                      <h3
+                        className={`text-[18px] text-center xl:text-left w-full font-bold ${metric.color}`}
+                      >
                         {metric.value}
                       </h3>
-                      <div className="flex flex-row items-center justify-start w-full">
+                      <div className="flex flex-row items-center justify-center xl:justify-start w-full">
                         <p className="text-xs text-gray-600 whitespace-nowrap">
                           {metric.title}
                         </p>
                         <div className="flex items-center gap-2">
                           {metric.isPositive ? (
-                            <FaArrowCircleUp className="w-3 h-3 text-green-500" />
+                            <FaArrowCircleUp className="w-3 h-3 ml-2 text-green-500" />
                           ) : (
-                            <FaArrowCircleDown className="w-3 h-3 text-red-500" />
+                            <FaArrowCircleDown className="w-3 h-3 ml-2 text-red-500" />
                           )}
                           <span
                             className={`text-xs font-medium ${
